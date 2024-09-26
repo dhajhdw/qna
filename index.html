@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Choice Questionnaire</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .category { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <h1>Multiple Choice Questionnaire</h1>
+    <form id="quizForm">
+        <div class="category">
+            <h2>Category 1: General Knowledge</h2>
+            <div class="question">
+                <p>1. What is the capital of France?</p>
+                <label><input type="radio" name="q1" value="0"> Berlin</label><br>
+                <label><input type="radio" name="q1" value="1"> Paris</label><br>
+                <label><input type="radio" name="q1" value="0"> Madrid</label><br>
+            </div>
+            <div class="question">
+                <p>2. What is 2 + 2?</p>
+                <label><input type="radio" name="q2" value="0"> 3</label><br>
+                <label><input type="radio" name="q2" value="1"> 4</label><br>
+                <label><input type="radio" name="q2" value="0"> 5</label><br>
+            </div>
+            <div class="question">
+                <p>3. Who wrote 'Hamlet'?</p>
+                <label><input type="radio" name="q3" value="0"> Charles Dickens</label><br>
+                <label><input type="radio" name="q3" value="0"> J.K. Rowling</label><br>
+                <label><input type="radio" name="q3" value="1"> William Shakespeare</label><br>
+            </div>
+        </div>
+        <div class="category">
+            <h2>Category 2: Science</h2>
+            <div class="question">
+                <p>1. What is H2O commonly known as?</p>
+                <label><input type="radio" name="q4" value="1"> Water</label><br>
+                <label><input type="radio" name="q4" value="0"> Oxygen</label><br>
+                <label><input type="radio" name="q4" value="0"> Hydrogen</label><br>
+            </div>
+            <div class="question">
+                <p>2. What planet is known as the Red Planet?</p>
+                <label><input type="radio" name="q5" value="1"> Mars</label><br>
+                <label><input type="radio" name="q5" value="0"> Venus</label><br>
+                <label><input type="radio" name="q5" value="0"> Jupiter</label><br>
+            </div>
+            <div class="question">
+                <p>3. What is the speed of light?</p>
+                <label><input type="radio" name="q6" value="0"> 300 km/s</label><br>
+                <label><input type="radio" name="q6" value="1"> 300,000 km/s</label><br>
+                <label><input type="radio" name="q6" value="0"> 150,000 km/s</label><br>
+            </div>
+        </div>
+        <div class="category">
+            <h2>Category 3: Geography</h2>
+            <div class="question">
+                <p>1. Which is the largest ocean on Earth?</p>
+                <label><input type="radio" name="q7" value="1"> Pacific Ocean</label><br>
+                <label><input type="radio" name="q7" value="0"> Atlantic Ocean</label><br>
+                <label><input type="radio" name="q7" value="0"> Indian Ocean</label><br>
+            </div>
+            <div class="question">
+                <p>2. What is the tallest mountain in the world?</p>
+                <label><input type="radio" name="q8" value="0"> K2</label><br>
+                <label><input type="radio" name="q8" value="1"> Mount Everest</label><br>
+                <label><input type="radio" name="q8" value="0"> Kilimanjaro</label><br>
+            </div>
+            <div class="question">
+                <p>3. What river is the longest in the world?</p>
+                <label><input type="radio" name="q9" value="0"> Amazon</label><br>
+                <label><input type="radio" name="q9" value="1"> Nile</label><br>
+                <label><input type="radio" name="q9" value="0"> Yangtze</label><br>
+            </div>
+        </div>
+        <button type="button" onclick="submitQuiz()">Submit</button>
+    </form>
+
+    <script>
+        function submitQuiz() {
+            const formData = new FormData(document.getElementById('quizForm'));
+            const scores = {
+                category1: 0,
+                category2: 0,
+                category3: 0
+            };
+            for (let [key, value] of formData.entries()) {
+                if (key.startsWith('q')) {
+                    if (key >= 'q1' && key <= 'q3') scores.category1 += parseInt(value);
+                    else if (key >= 'q4' && key <= 'q6') scores.category2 += parseInt(value);
+                    else if (key >= 'q7' && key <= 'q9') scores.category3 += parseInt(value);
+                }
+            }
+            localStorage.setItem('quizScores', JSON.stringify(scores));
+            window.location.href = 'results.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            const scores = JSON.parse(localStorage.getItem('quizScores')) || {category1: 0, category2: 0, category3: 0};
+            const totalQuestions = 3; // Each category has 3 questions
+            
+            drawChart('chart_div1', scores.category1, totalQuestions, 'General Knowledge');
+            drawChart('chart_div2', scores.category2, totalQuestions, 'Science');
+            drawChart('chart_div3', scores.category3, totalQuestions, 'Geography');
+        }
+
+        function drawChart(elementId, score, totalQuestions, title) {
+            const correct = score;
+            const incorrect = totalQuestions - score;
+
+            const data = google.visualization.arrayToDataTable([
+                ['Result', 'Count'],
+                ['Correct Answers', correct],
+                ['Incorrect Answers', incorrect]
+            ]);
+
+            const options = {
+                title: `${title} Results`,
+                is3D: true,
+                pieSliceText: 'percentage',
+                slices: {
+                    0: {offset: 0.1} // Optional: Add a little space to the correct answers slice
+                }
+            };
+
+            const chart = new google.visualization.PieChart(document.getElementById(elementId));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <h1>Quiz Results</h1>
+    <div id="chart_div1" style="width: 400px; height: 300px;"></div>
+    <div id="chart_div2" style="width: 400px; height: 300px;"></div>
+    <div id="chart_div3" style="width: 400px; height: 300px;"></div>
+</body>
+</html>
